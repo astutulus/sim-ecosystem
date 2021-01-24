@@ -8,50 +8,67 @@
 static std::vector<Entity*> entities;
 
 
-/* 
+/*
 * Class implementation
-* I notice I have no default constructors, just our overloaded ones
 */
-Entity::Entity(char name, int xInit, int yInit)
+
+// Default constr e.g. for use as placeholder in containers
+Entity::Entity()
+{
+	this->name = '-';
+	this->xPos = 0.0f;
+	this->yPos = 0.0f;
+}
+
+// Main constr the subclasses use
+Entity::Entity(char name, int x, int y)
 {
 	this->name = name;
-	xPos = (float)xInit;
-	yPos = (float)yInit;
+	this->xPos = (float)x;
+	this->yPos = (float)y;
 }
 
-Grass::Grass(int xInit, int yInit) : Entity('G', xInit, yInit)
+LifeForm::LifeForm(char name, int x, int y)
+	: Entity(name, x, y)
 {
+	this->age = 0.0f;
+};
 
-}
-
-Rabbit::Rabbit(int xInit, int yInit, int speed) : Entity('R', xInit, yInit)
+Plant::Plant(char name, int x, int y, int nutrition) 
+	: LifeForm(name, x, y)
 {
-	if ((speed >= 0) && (speed < MAX_SPEED))
-	{
-		this->speed = speed;
-	}
-}
+	this->fNutritionalValue = (float)nutrition;
+};
 
-/*
-* Additional animal object behaviour
-*/
-void Rabbit::Move(int deltaX, int deltaY)
+Animal::Animal(char name, int x, int y, int sight, int maxSp) 
+	: LifeForm(name, x, y)
 {
-	xPos += (deltaX * speed);
-	yPos += (deltaY * speed);
-}
+	this->eyeSight = (float)sight;
+	this->fMaxSpeed = (float)maxSp;
+	this->fCurrSpeed = 0.0f;
+};
+
+Grass::Grass(int x, int y)
+	: Plant('G', x, y, 10)
+{
+};
+
+Rabbit::Rabbit(int x, int y)
+	: Animal('R', x, y, 20, 50)
+{
+};
 
 /*
 * Returns false if no grass seen and so, no action taken
 */
-bool Rabbit::MoveToBNearestGrass(){
+bool Animal::LookFor(char target){
 	bool success = false;
 
 	Entity* nearestGrass;
 	float nearestGrassDist = FLT_MAX;
 	for (Entity* ent : getEntities())
 	{
-		if (ent->name == 'G')
+		if (ent->name == target)
 		{
 			success = true;
 			float dx = ent->xPos - this->xPos;
@@ -70,6 +87,17 @@ bool Rabbit::MoveToBNearestGrass(){
 
 
 /*
+* Additional animal object behaviour
+*/
+bool Animal::MoveTowards(int deltaX, int deltaY)
+{
+	xPos += (deltaX * this->fMaxSpeed);
+	yPos += (deltaY * this->fMaxSpeed);
+	return true;
+}
+
+
+/*
 * Accessors - To populate the world and retrieve it
 */
 void addGrass(int xSpawn, int ySpawn)
@@ -78,9 +106,9 @@ void addGrass(int xSpawn, int ySpawn)
 	entities.push_back(cedric);
 }
 
-void addRabbit(int xSpawn, int ySpawn, int speed)
+void addRabbit(int xSpawn, int ySpawn)
 {
-	Rabbit* peter = new Rabbit(xSpawn, ySpawn, speed);
+	Rabbit* peter = new Rabbit(xSpawn, ySpawn);
 	entities.push_back(peter);
 }
 

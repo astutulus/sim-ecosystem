@@ -3,38 +3,61 @@
 
 /*
 * Class Definitions
+* 
+* Many members are stored internally as float, for necessary accuracy
+* but the constr takes integer for api user-friendliness
 */
 
 class Entity
 {
 public:
+	Entity();
+	Entity(char, int, int);				//  name, x, y
 	char name;
-	float xPos, yPos;		// stored internally as float for necessary accuracy,
-	Entity(char, int, int);	// even though constr takes int for user friendliness
+	float xPos, yPos;		
 };
 
-
-class Grass : public Entity
+class LifeForm : public Entity
 {
 public:
-	Grass(int, int);
+	LifeForm(char, int, int);			// name, x, y
+	float age;
 };
 
-
-class Rabbit : public Entity
+class Plant : public LifeForm
 {
 public:
-	int speed = 0;
-	int MAX_SPEED = 20;
-	int eyesight = 20;
-	Rabbit(int, int, int);
-	void Move(int, int);
-	bool MoveToBNearestGrass();
+	Plant(char, int, int, int);			// name, x, y, nutrtional value
+	float fNutritionalValue;
+};
+
+class Animal : public LifeForm
+{
+public:
+	Animal(char, int, int, int, int);	// name, x, y, MAX_SPEED, eyesight
+	float eyeSight;
+	float fMaxSpeed;
+	float fCurrSpeed;
+
+	bool LookFor(char);
+	bool MoveTowards(int, int);
+};
+
+class Grass : public Plant
+{
+public:
+	Grass(int, int);					// x, y
+};
+
+class Rabbit : public Animal
+{
+public:
+	Rabbit(int, int);					// x, y
 };
 
 /*
 * Accessors
 */
 void addGrass(int, int);
-void addRabbit(int, int, int);
+void addRabbit(int, int);
 std::vector<Entity*> getEntities();

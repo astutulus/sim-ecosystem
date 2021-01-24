@@ -19,14 +19,18 @@
 #include "ConsoleGraphics.h"	// CreateScreenBuffer(), PaintScreenBuffer()
 #include "LifeForms.h"		// addGrass(), addRabbit()
 
+/*
+Settings
+*/
+float fGrassSeedRate = 0.02f; // seconds
+
 
 int main()
 {
 	/*
 	* Global - Time
 	*/
-	auto tp1 = std::chrono::system_clock::now();
-	auto tp2 = std::chrono::system_clock::now();
+	auto tpLastLoopStart = std::chrono::system_clock::now();
 	auto tpLastKeyPress = std::chrono::system_clock::now();
 
 	/*
@@ -36,33 +40,49 @@ int main()
 
 	addGrass(30, 10);
 	addGrass(90, 12);
-	addRabbit(5, 5, 4);
+	addRabbit(5, 5);
 
 	/*
-	* Game Loop
+	* GAME LOOP
 	*/
 	bool running = true;
 	while (running)
 	{
-		// CONTROL
+		/*
+		* TIMING
+		*/
+		auto tpThisLoopStart = std::chrono::system_clock::now();
+		std::chrono::duration<float> loopDuration = tpThisLoopStart - tpLastLoopStart;
+		tpLastLoopStart = tpThisLoopStart;
+
+		float fLoopDuration = loopDuration.count();
+
+		/*
+		* CONTROL
+		*/
+
 		// Add random grass
 		if (GetAsyncKeyState((unsigned short)'G') & 0x8000)
 		{
-			auto tpPresentKeyPress = std::chrono::system_clock::now();
+			auto tpNewKeyPress = std::chrono::system_clock::now();
 
-			std::chrono::duration<float> timeSinceLast = tpPresentKeyPress - tpLastKeyPress;
+			std::chrono::duration<float> timeSinceLast = tpNewKeyPress - tpLastKeyPress;
 			float fElapsedTime = timeSinceLast.count(); // timeSinceLast has "seconds" after it!
-			if (fElapsedTime > 1)
+			if (fElapsedTime > fGrassSeedRate)
 			{
 				int randomX = rand() % getScreenWidth(); // e.g.  rand() % 100;   uses the range 0 to 99 
-				int randomY = rand() % getScreenHeight();
+				int randomY = (rand() % (getScreenHeight() - 2)) + 2;   // to avoid using the top rows
 
 				addGrass(randomX, randomY);
 				tpLastKeyPress = std::chrono::system_clock::now();
 			}
 		}
 
-		WipeScreenBuffer(); // phase out when rabbit moves and wipes footprints
+
+		/*
+		* DRAW
+		*/
+
 		PaintScreenBuffer();
 
 	}
