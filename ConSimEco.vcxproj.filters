@@ -18,18 +18,27 @@
     <ClCompile Include="ConSimEco.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LifeForms.cpp">
+    <ClCompile Include="ConsoleGraphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ConsoleGraphics.cpp">
+    <ClCompile Include="EntityClasses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LifeForms.h">
+    <ClInclude Include="ConSimEco.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleGraphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityClasses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
