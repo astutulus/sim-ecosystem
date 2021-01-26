@@ -140,15 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConSimEco.cpp" />
-    <ClCompile Include="ConsoleGraphics.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="EntityClasses.cpp" />
-    <ClCompile Include="Simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConSimEco.h" />
-    <ClInclude Include="ConsoleGraphics.h" />
+    <ClInclude Include="GameEngine.h" />
     <ClInclude Include="EntityClasses.h" />
-    <ClInclude Include="Simulation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

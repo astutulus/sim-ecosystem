@@ -3,33 +3,43 @@
 
 /*
 * ------------------------------
-* Simulated Ecosystem in Console
+* Simulated Ecosystem in GameObj
 * ------ by Robin Wootton ------
 * ------------------------------
 *
 * To do:-
 * 
+*	Think I got a memory leak?
+* 
+* 
 */
 
-#include "Windows.h"	// GetAsyncKeyState()
+#include "Windows.h"			// GetAsyncKeyState()
 
-#include <chrono>		// std::chrono::system_clock::now(), std::chrono::duration<>
-#include <random>		// rand()
+#include <random>				// rand()
 
-#include "ConsoleGraphics.h"	// CreateScreenBuffer(), PaintEntities()
-#include "EntityClasses.h"			// addGrass(), addRabbit()
-#include "ConSimEco.h"			// Constants
+#include "GameEngine.h"		// BufferCreate(), PaintEntities()
+#include "EntityClasses.h"		// addGrass(), addRabbit()
+
+
+GameObj* cons = new GameObj();
+
+void PaintActor(Entity* e)
+{
+	cons->BufferAddCharacter(e->name, e->pos.x, e->pos.y);
+}
+
+void PaintStats(Rabbit* e)
+{
+	cons->BufferAddStats(e->fCurrEnergy);
+}
 
 
 int main()
 {
-
 	/*
-	* Global variables
+	* Starting positions for simulation
 	*/
-	auto tpLastLoopStart = std::chrono::system_clock::now();
-	auto tpLastDrawn = std::chrono::system_clock::now();
-
 	std::vector<Plant*> plants;
 	Grass* cedric = new Grass(40, 5);
 	plants.push_back(cedric);
@@ -40,9 +50,9 @@ int main()
 	Rabbit* peter = new Rabbit(20, 15);
 
 	/*
-	* Initialise graphics
+	Keystroke timing variable
 	*/
-	CreateScreenBuffer();
+	std::chrono::system_clock::time_point tpLastDrawn = std::chrono::system_clock::now();
 
 	/*
 	* GAME LOOP
@@ -53,17 +63,11 @@ int main()
 		/*
 		* TIMING
 		*/
-		auto tpThisLoopStart = std::chrono::system_clock::now();
-		std::chrono::duration<float> loopDuration = tpThisLoopStart - tpLastLoopStart;
-		tpLastLoopStart = tpThisLoopStart;
-
-		float fLoopDuration = loopDuration.count();
+		float looptime = cons->LatestLoopTime();
 
 		/*
 		* CONTROL
 		*/
-
-		// Add random grass
 		if (GetAsyncKeyState((unsigned short)'G') & 0x8000)
 		{
 			auto tpNewKeyPress = std::chrono::system_clock::now();
@@ -72,11 +76,11 @@ int main()
 
 			if (fElapsedTime > f_GRASS_SEED_RATE)
 			{
-				int randomX = rand() % getScreenWidth(); // e.g.  rand() % 100;   uses the range 0 to 99 
-				int randomY = (rand() % (getScreenHeight() - 2)) + 2;   // to avoid using the top rows
+				int randomX = rand() % cons->getScreenWidth(); // e.g.  rand() % 100;   uses the range 0 to 99 
+				int randomY = (rand() % (cons->getScreenHeight() - 2)) + 2;   // to avoid using the top rows
 
-				Grass* cecil = new Grass(randomX, randomY);
-				plants.push_back(cecil);
+				Grass* grass_ptr = new Grass(randomX, randomY);
+				plants.push_back(  grass_ptr  );
 
 				tpLastDrawn = std::chrono::system_clock::now();
 			}
@@ -85,7 +89,7 @@ int main()
 		/*
 		RUN SIMULATION
 		*/
-		peter->Graze(plants, fLoopDuration);
+		peter->Graze(plants, looptime);
 
 		// Cleanup consumed plants
 		for (Plant* p : plants)
@@ -100,24 +104,30 @@ int main()
 			}
 		}
 
+		/*
+		TO DO
 
+		if (x >= 0 && x < getScreenWidth() && y >= 2 && y < getScreenHeight())
+		{
+		}
+
+		*/
 
 
 		/*
 		* DRAW
 		*/
+		cons->BufferWipe(); // phase out when rabbit moves and wipes footprints
 
-		WipeScreenBuffer(); // phase out when rabbit moves and wipes footprints
-
-		for (Plant* p : plants)
+		for (Plant* plant : plants)
 		{
-			PaintEntity(p);
+			PaintActor(plant);
 		}
 
-		PaintEntity(peter);
+		PaintActor(peter);
 		PaintStats(peter);
 
-		PaintToScreen();
+		cons->BufferPaint();
 	}
 
 	std::cin.get();

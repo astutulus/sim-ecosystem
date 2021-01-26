@@ -1,15 +1,22 @@
 #pragma once
 
-#include <vector>
-
-#include "Simulation.h"
+#include <vector>				// vector of candidates, in animal behaviour
 
 /*
-* Class Definitions
-* 
-* Many members are stored internally as float, for necessary accuracy
-* but the constr takes integer for api user-friendliness
+* Configuration settings
 */
+const float f_GRASS_SEED_RATE = 0.02f; // seconds
+const float f_ENERGY_TRANSFER_RATE = 2.0f;
+const int n_GRASS_NUTRITION = 3;
+const int n_RABBIT_MAX_SPEED = 8;
+
+class Point
+{
+public:
+	float x, y;
+	Point(float, float);
+	Point();
+};
 
 class Entity
 {
@@ -18,6 +25,8 @@ public:
 	Point pos;		
 	Entity();
 	Entity(char, int, int);				//  name, position
+	float DistTo(Entity*);
+	float AngleTo(Entity*);
 };
 
 class LifeForm : public Entity
@@ -37,17 +46,19 @@ public:
 class Animal : public LifeForm
 {
 public:
-	float angle;
-	float eyeSight;
 	float fMaxSpeed;
+	float eyeSight;
+	float fCurrEnergy;
+	float fCurrAngle;
 	float fCurrSpeed;
-	float energy;
-	Animal(char, int, int, int, int);				// name, x, y, MAX_SPEED, eyesight
-	bool FleeFrom(Entity*);										// threat, frametime
+
+	Animal(char, int, int, int, int);				// name, x, y, fMaxSpeed, eyeSight
+
 	Plant* LookForNearestPlant(char, std::vector<Plant*>);
-	bool Graze(std::vector<Plant*>plants, float fLoopDuration);
+
+	bool FleeFrom(Entity*, float);								// threat, frametime
 	bool MoveTowards(Entity*, float);							// target, frametime
-	bool Consume(Plant*, float);								// target, frametime
+	bool Graze(std::vector<Plant*>plants, float);				// choices, frametime
 };
 
 class Grass : public Plant

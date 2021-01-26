@@ -1,12 +1,21 @@
 #include <vector>
 
-#include "EntityClasses.h"			// For class definitions
-#include "Simulation.h"	// Points and distances
-#include "ConSimEco.h"			// Constants
+#include "EntityClasses.h"
 
 /*
-* Class implementation
+* Class Definitions
+*
+* Many members are stored internally as float, for necessary accuracy
+* but the constr takes integer for api user-friendliness
 */
+Point::Point(float x, float y)
+{
+		this->x = x;
+		this->y = y;
+}
+
+Point::Point() : Point(0, 0)
+{ }
 
 // Default constr e.g. for use as placeholder in containers
 Entity::Entity()
@@ -19,8 +28,26 @@ Entity::Entity()
 Entity::Entity(char name, int x, int y)
 {
 	this->name = name;
-	this->pos = Point(x, y);
+	this->pos = Point((float)x, (float)y);
 }
+
+float Entity::DistTo(Entity* other)
+{
+	float dx = (*other).pos.x - this->pos.x;
+	float dy = (*other).pos.y - this->pos.y;
+	return sqrtf(powf(dx, 2.0f) + powf(dy, 2.0f));
+}
+
+float Entity::AngleTo(Entity* other)
+{
+	float dx = (*other).pos.x - this->pos.x;
+	float dy = (*other).pos.y - this->pos.y;
+	return atanf(dy / dx);
+}
+
+/*
+THE FUN PART
+*/
 
 LifeForm::LifeForm(char name, int x, int y)
 	: Entity(name, x, y)
@@ -37,8 +64,8 @@ Plant::Plant(char name, int x, int y, int nutrition)
 Animal::Animal(char name, int x, int y, int sight, int maxSp) 
 	: LifeForm(name, x, y)
 {
-	this->energy = 10;
-	this->angle = 0;
+	this->fCurrEnergy = 10;
+	this->fCurrAngle = 0;
 	this->eyeSight = (float)sight;
 	this->fMaxSpeed = (float)maxSp;
 	this->fCurrSpeed = fMaxSpeed; // to sort
@@ -58,7 +85,6 @@ Rabbit::Rabbit(int x, int y)
 * Additional animal object behaviour
 */
 
-
 Plant* Animal::LookForNearestPlant(char target, std::vector<Plant*> ents){
 	bool success = false;			// unused
 
@@ -69,7 +95,7 @@ Plant* Animal::LookForNearestPlant(char target, std::vector<Plant*> ents){
 		if (ent->name == target)
 		{
 			success = true;			// unused
-			float dist = DistToPoint(this->pos, ent->pos);
+			float dist = this->DistTo(ent);
 			if (dist < fDistToTarget)
 			{
 				spotted = ent;
@@ -80,50 +106,42 @@ Plant* Animal::LookForNearestPlant(char target, std::vector<Plant*> ents){
 	return spotted;
 }
 
-
-bool Animal::MoveTowards(Entity* ent, float frameTime)
-{	
-	this->angle = AngleToPoint(this->pos, ent->pos);
-
-	this->pos.x += cosf(angle) * this->fCurrSpeed * frameTime;
-	this->pos.y += sinf(angle) * this->fCurrSpeed * frameTime;
-
-	this->energy -= 0.1f * frameTime;
-	return true;
-}
-
-
-bool Animal::FleeFrom(Entity* ent)
+bool Animal::FleeFrom(Entity* ent, float looptime)
 {
 	return false;
 }
 
-
-bool Animal::Graze(std::vector<Plant*>plants, float fLoopDuration)
+bool Animal::MoveTowards(Entity* ent, float looptime)
 {
-	Plant* nearestGrass = this->LookForNearestPlant('G', plants);
+	this->fCurrAngle = this->AngleTo(ent);
 
-	if (DistToPoint(this->pos, nearestGrass->pos) > 1.0f)
-	{
-		this->MoveTowards(nearestGrass, fLoopDuration);
-	}
-	else 
-	{
-		this->Consume(nearestGrass, fLoopDuration);
-	}
+	this->pos.x += cosf(fCurrAngle) * this->fCurrSpeed * looptime;
+	this->pos.y += sinf(fCurrAngle) * this->fCurrSpeed * looptime;
+
+	this->fCurrEnergy -= 0.1f * looptime;
 	return true;
 }
 
-
-bool Animal::Consume(Plant* fodder, float fLoopDuration)
+// Returns true if couldn't see anything to graze
+bool Animal::Graze(std::vector<Plant*>plants, float looptime)
 {
-	if (fodder->fNutritionalValue > 0)
-	{
-		float fEnergyTransfered = f_ENERGY_TRANSFER_RATE * fLoopDuration;
+	Plant* nearestGrass = this->LookForNearestPlant('G', plants);
 
-		fodder->fNutritionalValue -= fEnergyTransfered;
-		this->energy += fEnergyTransfered;
+	if (DistTo(nearestGrass) > 1.0f)
+	{
+		this->MoveTowards(nearestGrass, looptime);
+		return true;
 	}
-	return true;
+	else if (nearestGrass->fNutritionalValue > 0)
+	{
+		float fEnergyTransfered = f_ENERGY_TRANSFER_RATE * looptime;
+		nearestGrass->fNutritionalValue -= fEnergyTransfered;
+		this->fCurrEnergy += fEnergyTransfered;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
