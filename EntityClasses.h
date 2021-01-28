@@ -6,13 +6,18 @@
 * Configuration settings
 */
 const float f_GRASS_SEED_RATE = 0.02f; // seconds
-const float f_ENERGY_TRANSFER_RATE = 2.0f;
-const int n_GRASS_NUTRITION = 3;
+
+const float f_ENERGY_INIT_GRASS = 1.0f;
+const float f_ENERGY_INIT_RABBIT = 4.0f;
+
+const float f_ENERGY_TRANSFER_LOOKING = 0.1f;
+const float f_ENERGY_TRANSFER_WALKING = 0.5f;
+const float f_ENERGY_TRANSFER_EATING = 2.5f;
+
 const int n_RABBIT_MAX_SPEED = 8;
 
-class Point
+struct Point
 {
-public:
 	float x, y;
 	Point(float, float);
 	Point();
@@ -40,7 +45,7 @@ class Plant : public LifeForm
 {
 public:
 	float fNutritionalValue;
-	Plant(char, int, int, int);			// name, x, y, nutrtional value
+	Plant(char, int, int, float);			// name, x, y, nutrtional value
 };
 
 class Animal : public LifeForm
@@ -52,9 +57,9 @@ public:
 	float fCurrAngle;
 	float fCurrSpeed;
 
-	Animal(char, int, int, int, int);				// name, x, y, fMaxSpeed, eyeSight
+	Animal(char, int, int, float, int, int);				// name, x, y, fMaxSpeed, eyeSight, nutrtional value
 
-	Plant* LookForNearestPlant(char, std::vector<Plant*>);
+	Plant* LookForNearestPlant(char, std::vector<Plant*>, float);
 
 	bool FleeFrom(Entity*, float);								// threat, frametime
 	bool MoveTowards(Entity*, float);							// target, frametime

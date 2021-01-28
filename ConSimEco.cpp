@@ -6,8 +6,9 @@
 *
 * To do:-
 * 
-*	Think I got a memory leak?!
-* 
+* Walks wrong direction.
+* (Never walks left for grass!)
+* Need to fix trigonometry.
 * 
 */
 
@@ -71,6 +72,10 @@ int main()
 		RUN SIMULATION
 		*/
 		peter->Graze(plants, looptime);
+
+		// Starvation
+		if (peter->fCurrEnergy <= 0)
+			running = false;
 
 		// Cleanup consumed plants
 		for (Plant* p : plants)

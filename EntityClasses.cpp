@@ -55,16 +55,16 @@ LifeForm::LifeForm(char name, int x, int y)
 	this->age = 0.0f;
 }
 
-Plant::Plant(char name, int x, int y, int nutrition) 
+Plant::Plant(char name, int x, int y, float nutrition) 
 	: LifeForm(name, x, y)
 {
-	this->fNutritionalValue = (float)nutrition;
+	this->fNutritionalValue = nutrition;
 }
 
-Animal::Animal(char name, int x, int y, int sight, int maxSp) 
+Animal::Animal(char name, int x, int y, float nutrition, int sight, int maxSp)
 	: LifeForm(name, x, y)
 {
-	this->fCurrEnergy = 10;
+	this->fCurrEnergy = nutrition;
 	this->fCurrAngle = 0;
 	this->eyeSight = (float)sight;
 	this->fMaxSpeed = (float)maxSp;
@@ -72,12 +72,12 @@ Animal::Animal(char name, int x, int y, int sight, int maxSp)
 }
 
 Grass::Grass(int x, int y)
-	: Plant('G', x, y, n_GRASS_NUTRITION)
+	: Plant('G', x, y, f_ENERGY_INIT_GRASS)
 {
 }
 
 Rabbit::Rabbit(int x, int y)
-	: Animal('R', x, y, 30, n_RABBIT_MAX_SPEED)
+	: Animal('R', x, y, f_ENERGY_INIT_RABBIT, 30, n_RABBIT_MAX_SPEED)
 {
 }
 
@@ -88,7 +88,7 @@ Rabbit::Rabbit(int x, int y)
 /*
 Returns the nearest plant or NULL
 */
-Plant* Animal::LookForNearestPlant(char target, std::vector<Plant*> ents)
+Plant* Animal::LookForNearestPlant(char target, std::vector<Plant*> ents, float looptime)
 {
 	Plant* result = NULL;
 	if (ents.size() > 0)
@@ -107,6 +107,7 @@ Plant* Animal::LookForNearestPlant(char target, std::vector<Plant*> ents)
 			}
 		}
 	}
+	this->fCurrEnergy -= f_ENERGY_TRANSFER_LOOKING * looptime;
 	return result;
 }
 
@@ -122,14 +123,15 @@ bool Animal::MoveTowards(Entity* ent, float looptime)
 	this->pos.x += cosf(fCurrAngle) * this->fCurrSpeed * looptime;
 	this->pos.y += sinf(fCurrAngle) * this->fCurrSpeed * looptime;
 
-	this->fCurrEnergy -= 0.1f * looptime;
+	this->fCurrEnergy -= f_ENERGY_TRANSFER_WALKING * looptime;
+
 	return true;
 }
 
 // Returns true if couldn't see anything to graze
 bool Animal::Graze(std::vector<Plant*> plants, float looptime)
 {
-	Plant* nearestGrass = this->LookForNearestPlant('G', plants);
+	Plant* nearestGrass = this->LookForNearestPlant('G', plants, looptime);
 	if (nearestGrass)
 	{
 		if (DistTo(nearestGrass) > 1.0f)
@@ -139,7 +141,8 @@ bool Animal::Graze(std::vector<Plant*> plants, float looptime)
 		}
 		else if (nearestGrass->fNutritionalValue > 0)
 		{
-			float fEnergyTransfered = f_ENERGY_TRANSFER_RATE * looptime;
+			float fEnergyTransfered = f_ENERGY_TRANSFER_EATING * looptime;
+
 			nearestGrass->fNutritionalValue -= fEnergyTransfered;
 			this->fCurrEnergy += fEnergyTransfered;
 			return true;
