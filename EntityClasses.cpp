@@ -85,25 +85,29 @@ Rabbit::Rabbit(int x, int y)
 * Additional animal object behaviour
 */
 
-Plant* Animal::LookForNearestPlant(char target, std::vector<Plant*> ents){
-	bool success = false;			// unused
-
-	Plant* spotted = new Plant('p',10,10,1);
-	float fDistToTarget = FLT_MAX;
-	for (Plant* ent : ents)
+/*
+Returns the nearest plant or NULL
+*/
+Plant* Animal::LookForNearestPlant(char target, std::vector<Plant*> ents)
+{
+	Plant* result = NULL;
+	if (ents.size() > 0)
 	{
-		if (ent->name == target)
+		float fDistToTarget = FLT_MAX;
+		for (Plant* ent : ents)
 		{
-			success = true;			// unused
-			float dist = this->DistTo(ent);
-			if (dist < fDistToTarget)
+			if (ent->name == target)
 			{
-				spotted = ent;
-				fDistToTarget = dist;
+				float dist = this->DistTo(ent);
+				if (dist < fDistToTarget)
+				{
+					result = ent;
+					fDistToTarget = dist;
+				}
 			}
 		}
 	}
-	return spotted;
+	return result;
 }
 
 bool Animal::FleeFrom(Entity* ent, float looptime)
@@ -123,25 +127,23 @@ bool Animal::MoveTowards(Entity* ent, float looptime)
 }
 
 // Returns true if couldn't see anything to graze
-bool Animal::Graze(std::vector<Plant*>plants, float looptime)
+bool Animal::Graze(std::vector<Plant*> plants, float looptime)
 {
 	Plant* nearestGrass = this->LookForNearestPlant('G', plants);
-
-	if (DistTo(nearestGrass) > 1.0f)
+	if (nearestGrass)
 	{
-		this->MoveTowards(nearestGrass, looptime);
-		return true;
+		if (DistTo(nearestGrass) > 1.0f)
+		{
+			this->MoveTowards(nearestGrass, looptime);
+			return true;
+		}
+		else if (nearestGrass->fNutritionalValue > 0)
+		{
+			float fEnergyTransfered = f_ENERGY_TRANSFER_RATE * looptime;
+			nearestGrass->fNutritionalValue -= fEnergyTransfered;
+			this->fCurrEnergy += fEnergyTransfered;
+			return true;
+		}
 	}
-	else if (nearestGrass->fNutritionalValue > 0)
-	{
-		float fEnergyTransfered = f_ENERGY_TRANSFER_RATE * looptime;
-		nearestGrass->fNutritionalValue -= fEnergyTransfered;
-		this->fCurrEnergy += fEnergyTransfered;
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
-
