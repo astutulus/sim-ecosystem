@@ -16,6 +16,8 @@ public:
 	std::chrono::system_clock::time_point tpLastLoopStart;
 	std::chrono::system_clock::time_point tpThisLoopStart;
 
+	std::chrono::system_clock::time_point tpLastKeyPress;
+
 	GameObj();
 
 	int getScreenWidth();
@@ -27,4 +29,6 @@ public:
 	void BufferPaint();
 
 	float LatestLoopTime();
+
+	bool IsKeyPressedAndResponsive(char, float);
 };

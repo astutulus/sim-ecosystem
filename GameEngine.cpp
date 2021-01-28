@@ -16,6 +16,8 @@ GameObj::GameObj()
 
 	tpLastLoopStart = std::chrono::system_clock::now();
 	tpThisLoopStart = std::chrono::system_clock::now();
+
+	tpLastKeyPress = std::chrono::system_clock::now();
 };
 
 int GameObj::getScreenWidth()
@@ -57,4 +59,22 @@ float GameObj::LatestLoopTime()
 	std::chrono::duration<float> loopDuration = tpThisLoopStart - tpLastLoopStart;
 	tpLastLoopStart = tpThisLoopStart;
 	return loopDuration.count();
+}
+
+bool GameObj::IsKeyPressedAndResponsive(char key, float seedRate)
+{
+	if (GetAsyncKeyState((unsigned short)key) & 0x8000)
+	{
+		auto tpNewKeyPress = std::chrono::system_clock::now();
+		std::chrono::duration<float> timeSinceLastPress = tpNewKeyPress - this->tpLastKeyPress;
+
+		// timeSinceLastPress has "seconds" after it, so get count()!
+
+		if (timeSinceLastPress.count() > seedRate)
+		{
+			tpLastKeyPress = tpNewKeyPress;
+			return true;
+		}
+	}
+	return false;
 }

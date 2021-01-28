@@ -1,24 +1,19 @@
-#include <iostream>
-#define LOG(x) std::cout << x << std::endl;
-
 /*
 * ------------------------------
-* Simulated Ecosystem in GameObj
+* Simulated Ecosystem in Console
 * ------ by Robin Wootton ------
 * ------------------------------
 *
 * To do:-
 * 
-*	Think I got a memory leak?
+*	Think I got a memory leak?!
 * 
 * 
 */
 
-#include "Windows.h"			// GetAsyncKeyState()
-
 #include <random>				// rand()
 
-#include "GameEngine.h"		// BufferCreate(), PaintEntities()
+#include "GameEngine.h"			// BufferCreate(), PaintEntities()
 #include "EntityClasses.h"		// addGrass(), addRabbit()
 
 
@@ -50,11 +45,6 @@ int main()
 	Rabbit* peter = new Rabbit(20, 15);
 
 	/*
-	Keystroke timing variable
-	*/
-	std::chrono::system_clock::time_point tpLastDrawn = std::chrono::system_clock::now();
-
-	/*
 	* GAME LOOP
 	*/
 	bool running = true;
@@ -68,22 +58,13 @@ int main()
 		/*
 		* CONTROL
 		*/
-		if (GetAsyncKeyState((unsigned short)'G') & 0x8000)
+		if (cons->IsKeyPressedAndResponsive('G', f_GRASS_SEED_RATE))
 		{
-			auto tpNewKeyPress = std::chrono::system_clock::now();
-			std::chrono::duration<float> timeSinceLast = tpNewKeyPress - tpLastDrawn;
-			float fElapsedTime = timeSinceLast.count(); // timeSinceLast has "seconds" after it!
-
-			if (fElapsedTime > f_GRASS_SEED_RATE)
-			{
 				int randomX = rand() % cons->getScreenWidth(); // e.g.  rand() % 100;   uses the range 0 to 99 
 				int randomY = (rand() % (cons->getScreenHeight() - 2)) + 2;   // to avoid using the top rows
 
 				Grass* grass_ptr = new Grass(randomX, randomY);
 				plants.push_back(  grass_ptr  );
-
-				tpLastDrawn = std::chrono::system_clock::now();
-			}
 		}
 
 		/*
@@ -96,11 +77,7 @@ int main()
 		{
 			if (p->fNutritionalValue < 0)
 			{
-				// delete p;
-
 				plants.erase(    std::remove(plants.begin(), plants.end(), p)       );
-
-			
 			}
 		}
 
@@ -130,5 +107,4 @@ int main()
 		cons->BufferPaint();
 	}
 
-	std::cin.get();
 }
