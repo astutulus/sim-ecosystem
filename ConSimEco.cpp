@@ -3,15 +3,10 @@
 * Simulated Ecosystem in Console
 * ------ by Robin Wootton ------
 * ------------------------------
-*
-* To do:-
-* 
-* Walks wrong direction.
-* (Never walks left for grass!)
-* Need to fix trigonometry.
-* 
 */
 
+#include <iostream>
+#include <string>
 #include <random>				// rand()
 
 #include "GameEngine.h"			// BufferCreate(), PaintEntities()
@@ -20,14 +15,10 @@
 
 GameObj* cons = new GameObj();
 
+
 void PaintActor(Entity* e)
 {
 	cons->BufferAddCharacter(e->name, e->pos.x, e->pos.y);
-}
-
-void PaintStats(Rabbit* e)
-{
-	cons->BufferAddStats(e->fCurrEnergy);
 }
 
 
@@ -40,10 +31,10 @@ int main()
 	Grass* cedric = new Grass(40, 5);
 	plants.push_back(cedric);
 
-	Grass* cecil = new Grass(70, 25);
+	Grass* cecil = new Grass(20, 10);
 	plants.push_back(cecil);
 
-	Rabbit* peter = new Rabbit(20, 15);
+	Rabbit* peter = new Rabbit(50, 15);
 
 	/*
 	* GAME LOOP
@@ -105,11 +96,15 @@ int main()
 		{
 			PaintActor(plant);
 		}
-
 		PaintActor(peter);
-		PaintStats(peter);
 
+		cons->BufferAddStats(peter->fCurrEnergy);
 		cons->BufferPaint();
 	}
-
+	
+	/*while (true)
+	{
+		std::string str = "You ran out of energy";
+		cons->BufferAddText(str);
+	}*/
 }

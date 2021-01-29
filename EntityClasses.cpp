@@ -1,3 +1,6 @@
+#define _USE_MATH_DEFINES // required for the next line to work
+#include <cmath>
+
 #include <vector>
 
 #include "EntityClasses.h"
@@ -42,7 +45,12 @@ float Entity::AngleTo(Entity* other)
 {
 	float dx = (*other).pos.x - this->pos.x;
 	float dy = (*other).pos.y - this->pos.y;
-	return atanf(dy / dx);
+
+	if (dx > 0)
+		return atanf(dy / dx);
+	else
+		return atanf(dy / dx) + M_PI;
+
 }
 
 /*

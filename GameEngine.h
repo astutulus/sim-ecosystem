@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "Windows.h"		// HANDLE type
 
 #include <chrono>			// std::chrono::system_clock::now(), std::chrono::duration<>
@@ -26,6 +27,7 @@ public:
 	void BufferWipe();
 	void BufferAddCharacter(char, int, int);
 	void BufferAddStats(float);
+	void BufferAddText(std::string);
 	void BufferPaint();
 
 	float LatestLoopTime();

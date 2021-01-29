@@ -45,8 +45,20 @@ void GameObj::BufferAddCharacter(char symbol, int x, int y)
 }
 void GameObj::BufferAddStats(float energy)
 {
-	swprintf_s(screen, 40, L"Rabbit: Energy=%3.2f", energy);
+	swprintf_s(screen, 25, L"Rabbit: Energy=%3.2f", energy);
 }
+
+//void GameObj::BufferAddText(std::string msg)
+//{
+//	COORD pos;
+//	pos.X = getScreenWidth() / 2;
+//	pos.Y = getScreenHeight() / 2;
+//	SetConsoleCursorPosition(hConsole, pos);
+//
+//	WriteConsole(hConsole, msg.c_str(), 21, NULL, NULL);
+//
+//}
+
 void GameObj::BufferPaint()
 {
 	screen[nScreenWidth * nScreenHeight - 1] = '\0';
