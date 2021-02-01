@@ -139,13 +139,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConSimEco.cpp" />
+    <ClCompile Include="GameLoop.cpp" />
+    <ClCompile Include="DisplayEngine.cpp" />
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="EntityClasses.cpp" />
+    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="zEntity.cpp" />
+    <ClCompile Include="zzLifeForm.cpp" />
+    <ClCompile Include="zzzAnimal.cpp" />
+    <ClCompile Include="zzzPlant.cpp" />
+    <ClCompile Include="zzzzGrass.cpp" />
+    <ClCompile Include="zzzzRabbit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DisplayEngine.h" />
     <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="EntityClasses.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="zEntity.h" />
+    <ClInclude Include="zzLifeForm.h" />
+    <ClInclude Include="zzzAnimal.h" />
+    <ClInclude Include="zzzPlant.h" />
+    <ClInclude Include="zzzzGrass.h" />
+    <ClInclude Include="zzzzRabbit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

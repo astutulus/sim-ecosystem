@@ -1,36 +1,57 @@
 #pragma once
 
-#include <string>
-#include "Windows.h"		// HANDLE type
+#include <vector>
+#include <random>					// rand()
+#include <chrono>					// std::chrono::system_clock::now(), std::chrono::duration<>
 
-#include <chrono>			// std::chrono::system_clock::now(), std::chrono::duration<>
+#include "DisplayEngine.h"
+#include "zEntity.h"
+#include "zzzPlant.h"
+#include "zzzzRabbit.h"
 
-class GameObj
-{
-public:
-	int nScreenWidth, nScreenHeight;
+/*
+Constants for tuning game balance
+*/
+const float f_GRASS_SEED_RATE = 0.1f; // seconds per plant
 
-	wchar_t* screen;		// Our buffer for the content of the console
-	HANDLE hConsole;		// The Windows console
-	DWORD dwBytesWritten;	// Windows not needed
+const float f_ENERGY_INIT_GRASS = 0.9f;
+const float f_ENERGY_INIT_RABBIT = 2.8f;
 
+const float f_ENERGY_TRANSFER_LOOKING = 0.3f;
+const float f_ENERGY_TRANSFER_WALKING = 0.5f;
+const float f_ENERGY_TRANSFER_EATING = 2.4f;
+
+const int n_RABBIT_MAX_SPEED = 8;
+
+
+class EcoSim {
+protected:
+	std::chrono::system_clock::time_point tpLastKeyPress;
 	std::chrono::system_clock::time_point tpLastLoopStart;
 	std::chrono::system_clock::time_point tpThisLoopStart;
+	float looptime;
+	
+	DisplayObj* display;
 
-	std::chrono::system_clock::time_point tpLastKeyPress;
+	std::vector<Plant*> plants;
+	std::vector<Animal*> animals;
 
-	GameObj();
+public:
+	EcoSim();
 
-	int getScreenWidth();
-	int getScreenHeight();
+	void SpawnGrass();
+	void SpawnGrass(int x, int y);
+	void SpawnRabbit();
+	void SpawnRabbit(int x, int y);
 
-	void BufferWipe();
-	void BufferAddCharacter(char, int, int);
-	void BufferAddStats(float);
-	void BufferAddText(std::string);
-	void BufferPaint();
+	bool IsKeyPressed(char);
+	void UpdateLoopTime();
+	bool AninalAcivity();
+	bool PlantAcivity();
 
-	float LatestLoopTime();
+	void DrawAll();
 
-	bool IsKeyPressedAndResponsive(char, float);
+private:
+	float GetLoopTime();
+	void BufferActor(Entity*);
 };

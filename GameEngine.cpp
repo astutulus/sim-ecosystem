@@ -1,71 +1,126 @@
-#include "Windows.h"
-
-#include <chrono>			// std::chrono::system_clock::now(), std::chrono::duration<>
-
+#include "DisplayEngine.h"
 #include "GameEngine.h"
+#include "Point.h"
+#include "zEntity.h"
+#include "zzzzGrass.h"
+#include "zzzzRabbit.h"
 
-GameObj::GameObj()
+EcoSim::EcoSim()
 {
-	nScreenWidth = 120;
-	nScreenHeight = 30;
-
-	screen = new wchar_t[  nScreenWidth * nScreenHeight  ];
-	hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-	SetConsoleActiveScreenBuffer(hConsole);
-	dwBytesWritten = 0;
-
+	tpLastKeyPress = std::chrono::system_clock::now();
 	tpLastLoopStart = std::chrono::system_clock::now();
 	tpThisLoopStart = std::chrono::system_clock::now();
 
-	tpLastKeyPress = std::chrono::system_clock::now();
-};
+	looptime = 0.001;
 
-int GameObj::getScreenWidth()
-{
-	return nScreenWidth;
-}
-int GameObj::getScreenHeight()
-{
-	return nScreenHeight;
+	display = new DisplayObj();
 }
 
-void GameObj::BufferWipe()
+void EcoSim::SpawnGrass()
 {
-	for (int x = 0; x < nScreenWidth; x++)
+	int randX = rand() % display->getScreenWidth(); // e.g.  rand() % 100;   uses the range 0 to 99 
+	int randY = (rand() % (display->getScreenHeight() - 2)) + 2;   // to avoid using the top rows
+	SpawnGrass(randX, randY);
+}
+
+void EcoSim::SpawnGrass(int x, int y)
+{	
+	this->plants.push_back(new Grass(Point(x, y)));
+}
+
+void EcoSim::SpawnRabbit()
+{
+	int randX = rand() % display->getScreenWidth(); // e.g.  rand() % 100;   uses the range 0 to 99 
+	int randY = (rand() % (display->getScreenHeight() - 2)) + 2;   // to avoid using the top rows
+	SpawnRabbit(randX, randY);
+}
+
+void EcoSim::SpawnRabbit(int x, int y)
+{
+	animals.push_back(new Rabbit(Point(x, y)));	
+}
+
+bool EcoSim::IsKeyPressed(char key)
+{
+	if (GetAsyncKeyState((unsigned short)key) & 0x8000)
 	{
-		for (int y = 0; y < nScreenHeight; y++)
+		auto tpNewKeyPress = std::chrono::system_clock::now();
+		std::chrono::duration<float> timeSinceLastPress = tpNewKeyPress - tpLastKeyPress;
+
+		// timeSinceLastPress has "seconds" after it, so get count()!
+
+		if (timeSinceLastPress.count() > f_GRASS_SEED_RATE)
 		{
-			screen[y * nScreenWidth + x] = ' ';
+			tpLastKeyPress = tpNewKeyPress;
+			return true;
 		}
 	}
-}
-void GameObj::BufferAddCharacter(char symbol, int x, int y)
-{
-		screen[y * nScreenWidth + x] = symbol;
-}
-void GameObj::BufferAddStats(float energy)
-{
-	swprintf_s(screen, 25, L"Rabbit: Energy=%3.2f", energy);
+	return false;
 }
 
-//void GameObj::BufferAddText(std::string msg)
-//{
-//	COORD pos;
-//	pos.X = getScreenWidth() / 2;
-//	pos.Y = getScreenHeight() / 2;
-//	SetConsoleCursorPosition(hConsole, pos);
-//
-//	WriteConsole(hConsole, msg.c_str(), 21, NULL, NULL);
-//
-//}
-
-void GameObj::BufferPaint()
+void EcoSim::UpdateLoopTime()
 {
-	screen[nScreenWidth * nScreenHeight - 1] = '\0';
-	WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, { 0, 0 }, &dwBytesWritten);
+	this->looptime = this->GetLoopTime();
 }
 
-float GameObj::LatestLoopTime()
+bool EcoSim::AninalAcivity()
+{
+	{
+		// in future make threaded
+		for (Animal* anml : animals)
+		{
+			anml->Graze(plants, looptime);
+			if (anml->getCurrEnergy() <= 0)
+			{
+				animals.erase(std::remove(animals.begin(), animals.end(), anml));
+			}
+		}
+
+		if (this->animals.size() == 0) 
+			return false;
+		else 
+			return true;
+	}
+}
+
+bool EcoSim::PlantAcivity()
+{
+	for (Plant* plnt : plants)
+	{
+		if (plnt->getBioMass() <= 0)
+		{
+			plants.erase(std::remove(plants.begin(), plants.end(), plnt));
+		}
+	}
+
+	if (this->plants.size() == 0)
+		return false;
+	else
+		return true;
+
+}
+
+void EcoSim::DrawAll()
+{
+	display->BufferWipe();  // phase out when actors are able to wipe their own footprints
+
+	for (Plant* plnt : plants)
+	{
+		BufferActor(plnt);
+	}
+	for (Animal* anml : animals)
+	{
+		BufferActor(anml);
+	}
+
+	// Show energy level of the first-born Rabbit still alive
+	display->BufferAddStats((*(animals.begin()))->getCurrEnergy());
+
+	display->PaintBuffer();
+}
+
+
+float EcoSim::GetLoopTime()
 {
 	tpThisLoopStart = std::chrono::system_clock::now();
 	std::chrono::duration<float> loopDuration = tpThisLoopStart - tpLastLoopStart;
@@ -73,20 +128,9 @@ float GameObj::LatestLoopTime()
 	return loopDuration.count();
 }
 
-bool GameObj::IsKeyPressedAndResponsive(char key, float seedRate)
+void EcoSim::BufferActor(Entity* ent)
 {
-	if (GetAsyncKeyState((unsigned short)key) & 0x8000)
-	{
-		auto tpNewKeyPress = std::chrono::system_clock::now();
-		std::chrono::duration<float> timeSinceLastPress = tpNewKeyPress - this->tpLastKeyPress;
-
-		// timeSinceLastPress has "seconds" after it, so get count()!
-
-		if (timeSinceLastPress.count() > seedRate)
-		{
-			tpLastKeyPress = tpNewKeyPress;
-			return true;
-		}
-	}
-	return false;
+	Entity e = *ent;
+	Point p = e.getPos();
+	display->BufferAddCharacter(e.getName(), e.getPos().x, e.getPos().y);
 }
