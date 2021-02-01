@@ -6,16 +6,12 @@
 #include "Point.h"
 #include "zEntity.h"
 
-
-// Default constr e.g. for use as placeholder in containers
 Entity::Entity() : name { '-' }, pos { Point(0, 0) }
 {}
 
 
-// Main constr the subclasses use
-Entity::Entity(char name, Point position) : name{ name }, pos{ position }       // CRAZY shortcut way to init vars
-{
-}
+Entity::Entity(char name, Point position) : name{ name }, pos{ position }
+{ }
 
 char Entity::getName()
 {
@@ -43,6 +39,5 @@ float Entity::AngleTo(Entity* other)
 		return atanf(dy / dx);
 	else
 		return atanf(dy / dx) + M_PI;
-
 }
 

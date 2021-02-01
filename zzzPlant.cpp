@@ -3,13 +3,12 @@
 #include "Point.h"
 #include "zzzPlant.h"
 
-Plant::Plant() = default;
+Plant::Plant() : LifeForm(), fBioMass{ 1 }
+{}
 
 Plant::Plant(char name, Point position, float nutrition)
-	: LifeForm(name, position)
-{
-	this->fBioMass = nutrition;
-}
+	: LifeForm(name, position), fBioMass{ nutrition }
+{}
 
 float Plant::getBioMass()
 {

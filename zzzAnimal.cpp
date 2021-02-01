@@ -7,6 +7,11 @@
 
 Animal::Animal() : LifeForm()
 {
+	this->fCurrEnergy = 1;
+	this->fCurrAngle = 0;
+	this->eyeSight = 1.0f;
+	this->fMaxSpeed = 1.0f;
+	this->fCurrSpeed = 1;
 }
 
 Animal::Animal(char name, Point position, float nutrition, int sight, int maxSp)

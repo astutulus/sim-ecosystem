@@ -3,12 +3,17 @@
 * Simulated Ecosystem in Console
 * ------ by Robin Wootton ------
 * ------------------------------
+* 
+* TO DO:
+* ASCII Texture for grass
+* Symbol for rabbit
+* 
+* Colour ... (?)
 */
 
 #include <iostream>
 #include <string>
 
-#include "GameEngine.h"
 #include "GameEngine.h"
 
 int main()

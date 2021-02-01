@@ -3,6 +3,6 @@
 struct Point
 {
 	float x, y;
-	Point(float, float);
 	Point();
+	Point(float, float);
 };
