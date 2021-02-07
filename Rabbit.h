@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Point.h"
-#include "zzzAnimal.h"
+#include "Animal.h"
 
 class Rabbit : public Animal
 {

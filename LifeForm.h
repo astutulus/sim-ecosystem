@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Point.h"
-#include "zEntity.h"
+#include "Entity.h"
 
 
 class LifeForm : public Entity

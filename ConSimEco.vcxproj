@@ -143,23 +143,23 @@
     <ClCompile Include="DisplayEngine.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="Point.cpp" />
-    <ClCompile Include="zEntity.cpp" />
-    <ClCompile Include="zzLifeForm.cpp" />
-    <ClCompile Include="zzzAnimal.cpp" />
-    <ClCompile Include="zzzPlant.cpp" />
-    <ClCompile Include="zzzzGrass.cpp" />
-    <ClCompile Include="zzzzRabbit.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="LifeForm.cpp" />
+    <ClCompile Include="Animal.cpp" />
+    <ClCompile Include="Plant.cpp" />
+    <ClCompile Include="Grass.cpp" />
+    <ClCompile Include="Rabbit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayEngine.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="Point.h" />
-    <ClInclude Include="zEntity.h" />
-    <ClInclude Include="zzLifeForm.h" />
-    <ClInclude Include="zzzAnimal.h" />
-    <ClInclude Include="zzzPlant.h" />
-    <ClInclude Include="zzzzGrass.h" />
-    <ClInclude Include="zzzzRabbit.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="LifeForm.h" />
+    <ClInclude Include="Animal.h" />
+    <ClInclude Include="Plant.h" />
+    <ClInclude Include="Grass.h" />
+    <ClInclude Include="Rabbit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

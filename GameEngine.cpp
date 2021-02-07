@@ -1,9 +1,9 @@
 #include "DisplayEngine.h"
 #include "GameEngine.h"
 #include "Point.h"
-#include "zEntity.h"
-#include "zzzzGrass.h"
-#include "zzzzRabbit.h"
+#include "Entity.h"
+#include "Grass.h"
+#include "Rabbit.h"
 
 EcoSim::EcoSim()
 {

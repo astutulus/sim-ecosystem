@@ -3,9 +3,9 @@
 #include <vector>
 
 #include "Point.h"
-#include "zEntity.h"
-#include "zzLifeForm.h"
-#include "zzzPlant.h"
+#include "Entity.h"
+#include "LifeForm.h"
+#include "Plant.h"
 
 class Animal : public LifeForm
 {

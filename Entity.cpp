@@ -4,7 +4,7 @@
 
 #include "GameEngine.h"
 #include "Point.h"
-#include "zEntity.h"
+#include "Entity.h"
 
 Entity::Entity() : name { '-' }, pos { Point(0, 0) }
 {}

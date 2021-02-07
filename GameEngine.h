@@ -5,9 +5,9 @@
 #include <chrono>					// std::chrono::system_clock::now(), std::chrono::duration<>
 
 #include "DisplayEngine.h"
-#include "zEntity.h"
-#include "zzzPlant.h"
-#include "zzzzRabbit.h"
+#include "Entity.h"
+#include "Plant.h"
+#include "Rabbit.h"
 
 /*
 Constants for tuning game balance

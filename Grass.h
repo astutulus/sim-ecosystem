@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Point.h"
-#include "zzzPlant.h"
+#include "Plant.h"
 
 class Grass : public Plant
 {
