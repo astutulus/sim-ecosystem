@@ -12,7 +12,8 @@
 /*
 Constants for tuning game balance
 */
-const float f_GRASS_SEED_RATE = 0.1f; // seconds per plant
+const float f_GRASS_SEED_TIME   = 0.01f; // seconds per plant
+const float f_RABBIT_SPAWN_TIME = 0.25f; // seconds per plant
 
 const float f_ENERGY_INIT_GRASS = 0.9f;
 const float f_ENERGY_INIT_RABBIT = 2.8f;

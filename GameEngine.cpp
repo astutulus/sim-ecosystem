@@ -42,14 +42,17 @@ void EcoSim::SpawnRabbit(int x, int y)
 
 bool EcoSim::IsKeyPressed(char key)
 {
+	float seedRate = 1.0f;
+	if (key == 'G') seedRate = f_GRASS_SEED_TIME;
+	if (key == 'R') seedRate = f_RABBIT_SPAWN_TIME;
+
 	if (GetAsyncKeyState((unsigned short)key) & 0x8000)
 	{
 		auto tpNewKeyPress = std::chrono::system_clock::now();
 		std::chrono::duration<float> timeSinceLastPress = tpNewKeyPress - tpLastKeyPress;
 
 		// timeSinceLastPress has "seconds" after it, so get count()!
-
-		if (timeSinceLastPress.count() > f_GRASS_SEED_RATE)
+		if (timeSinceLastPress.count() > seedRate)
 		{
 			tpLastKeyPress = tpNewKeyPress;
 			return true;

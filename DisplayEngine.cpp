@@ -32,10 +32,26 @@ void DisplayObj::BufferWipe()
 		}
 	}
 }
+
 void DisplayObj::BufferAddCharacter(char symbol, int x, int y)
 {
-		screen[y * nScreenWidth + x] = symbol;
+
+	short nShade = ' ';  
+	
+	if (symbol == 'G')
+	{
+		nShade = 0x2591;    // dark
+		//nShade = 0x2592;    // medium
+		//nShade = 0x2593;    // light
+		//nShade = 0x2588;    // solid white
+	}
+	else if (symbol == 'R')
+	{
+		nShade = 0x2022;
+	}
+	screen[y * nScreenWidth + x] = nShade;
 }
+
 void DisplayObj::BufferAddStats(float energy)
 {
 	swprintf_s(screen, 25, L"Rabbit: Energy=%3.2f", energy);
