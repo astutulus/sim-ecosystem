@@ -10,3 +10,11 @@ public:
 	Rabbit(Point);
 };
 
+
+class Fox : public Animal
+{
+public:
+	Fox();
+	Fox(Point);
+};
+
