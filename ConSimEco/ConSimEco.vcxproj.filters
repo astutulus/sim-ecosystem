@@ -21,63 +21,63 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DisplayEngine.cpp">
+    <ClCompile Include="code\DisplayEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Point.cpp">
+    <ClCompile Include="code\GameEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameLoop.cpp">
+    <ClCompile Include="code\GameLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngine.cpp">
+    <ClCompile Include="code\Point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
+    <ClCompile Include="code\entity\Animal.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="LifeForm.cpp">
+    <ClCompile Include="code\entity\Entity.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Animal.cpp">
+    <ClCompile Include="code\entity\Grass.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Plant.cpp">
+    <ClCompile Include="code\entity\LifeForm.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Grass.cpp">
+    <ClCompile Include="code\entity\Plant.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Rabbit.cpp">
+    <ClCompile Include="code\entity\Rabbit.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Point.h">
+    <ClInclude Include="code\DisplayEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DisplayEngine.h">
+    <ClInclude Include="code\GameEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngine.h">
+    <ClInclude Include="code\Point.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
+    <ClInclude Include="code\entity\Animal.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="LifeForm.h">
+    <ClInclude Include="code\entity\Entity.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Animal.h">
+    <ClInclude Include="code\entity\Grass.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Plant.h">
+    <ClInclude Include="code\entity\LifeForm.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Grass.h">
+    <ClInclude Include="code\entity\Plant.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Rabbit.h">
+    <ClInclude Include="code\entity\Rabbit.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
   </ItemGroup>

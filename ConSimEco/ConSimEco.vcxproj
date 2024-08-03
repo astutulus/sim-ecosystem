@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -116,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/I"code\entity" /I"code" %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,27 +140,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameLoop.cpp" />
-    <ClCompile Include="DisplayEngine.cpp" />
-    <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="LifeForm.cpp" />
-    <ClCompile Include="Animal.cpp" />
-    <ClCompile Include="Plant.cpp" />
-    <ClCompile Include="Grass.cpp" />
-    <ClCompile Include="Rabbit.cpp" />
+    <ClCompile Include="code\DisplayEngine.cpp" />
+    <ClCompile Include="code\entity\Animal.cpp" />
+    <ClCompile Include="code\entity\Entity.cpp" />
+    <ClCompile Include="code\entity\Grass.cpp" />
+    <ClCompile Include="code\entity\LifeForm.cpp" />
+    <ClCompile Include="code\entity\Plant.cpp" />
+    <ClCompile Include="code\entity\Rabbit.cpp" />
+    <ClCompile Include="code\GameEngine.cpp" />
+    <ClCompile Include="code\GameLoop.cpp" />
+    <ClCompile Include="code\Point.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DisplayEngine.h" />
-    <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="LifeForm.h" />
-    <ClInclude Include="Animal.h" />
-    <ClInclude Include="Plant.h" />
-    <ClInclude Include="Grass.h" />
-    <ClInclude Include="Rabbit.h" />
+    <ClInclude Include="code\DisplayEngine.h" />
+    <ClInclude Include="code\entity\Animal.h" />
+    <ClInclude Include="code\entity\Entity.h" />
+    <ClInclude Include="code\entity\Grass.h" />
+    <ClInclude Include="code\entity\LifeForm.h" />
+    <ClInclude Include="code\entity\Plant.h" />
+    <ClInclude Include="code\entity\Rabbit.h" />
+    <ClInclude Include="code\GameEngine.h" />
+    <ClInclude Include="code\Point.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
