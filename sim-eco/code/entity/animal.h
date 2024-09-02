@@ -2,10 +2,11 @@
 
 #include <vector>
 
-#include "Point.h"
-#include "Entity.h"
-#include "LifeForm.h"
-#include "Plant.h"
+#include "point.h"
+#include "entity.h"
+#include "life-form.h"
+#include "plant.h"
+
 
 class Animal : public LifeForm
 {

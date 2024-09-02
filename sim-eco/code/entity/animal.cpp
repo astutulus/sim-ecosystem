@@ -1,8 +1,7 @@
-
-#include "GameEngine.h"
-#include "Point.h"
-#include "Animal.h"
-#include "Plant.h"
+#include "game-engine.h"
+#include "point.h"
+#include "animal.h"
+#include "plant.h"
 
 
 Animal::Animal() : LifeForm()

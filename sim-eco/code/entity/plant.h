@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Point.h"
-#include "LifeForm.h"
+#include "point.h"
+#include "life-form.h"
 
 class Plant : public LifeForm
 {

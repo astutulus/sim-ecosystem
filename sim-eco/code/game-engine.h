@@ -1,13 +1,13 @@
 #pragma once
 
 #include <vector>
-#include <random>					// rand()
-#include <chrono>					// std::chrono::system_clock::now(), std::chrono::duration<>
+#include <random> // rand()
+#include <chrono> // std::chrono::system_clock::now(), std::chrono::duration<>
 
-#include "DisplayEngine.h"
-#include "Entity.h"
-#include "Plant.h"
-#include "Rabbit.h"
+#include "display-engine.h"
+#include "entity.h"
+#include "plant.h"
+#include "rabbit.h"
 
 /*
 Constants for tuning game balance

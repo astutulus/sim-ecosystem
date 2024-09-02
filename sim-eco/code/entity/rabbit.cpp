@@ -1,7 +1,6 @@
-
-#include "GameEngine.h"
-#include "Point.h"
-#include "Rabbit.h"
+#include "game-engine.h"
+#include "point.h"
+#include "rabbit.h"
 
 Rabbit::Rabbit() = default;
 

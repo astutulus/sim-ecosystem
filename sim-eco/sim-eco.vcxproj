@@ -18,11 +18,34 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\display-engine.cpp" />
+    <ClCompile Include="code\entity\animal.cpp" />
+    <ClCompile Include="code\entity\entity.cpp" />
+    <ClCompile Include="code\entity\grass.cpp" />
+    <ClCompile Include="code\entity\life-form.cpp" />
+    <ClCompile Include="code\entity\plant.cpp" />
+    <ClCompile Include="code\entity\rabbit.cpp" />
+    <ClCompile Include="code\game-engine.cpp" />
+    <ClCompile Include="code\main-loop.cpp" />
+    <ClCompile Include="code\point.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\display-engine.h" />
+    <ClInclude Include="code\entity\animal.h" />
+    <ClInclude Include="code\entity\entity.h" />
+    <ClInclude Include="code\entity\grass.h" />
+    <ClInclude Include="code\entity\life-form.h" />
+    <ClInclude Include="code\entity\plant.h" />
+    <ClInclude Include="code\entity\rabbit.h" />
+    <ClInclude Include="code\game-engine.h" />
+    <ClInclude Include="code\point.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8344e6b9-284e-4da5-8ff2-9de5afcd8d75}</ProjectGuid>
-    <RootNamespace>ConSimEco</RootNamespace>
+    <ProjectGuid>{14315bcd-b753-47bb-b6be-9c73436c8974}</ProjectGuid>
+    <RootNamespace>simeco</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,18 +93,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -117,6 +128,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/I"code\entity" /I"code" %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,29 +151,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="code\DisplayEngine.cpp" />
-    <ClCompile Include="code\entity\Animal.cpp" />
-    <ClCompile Include="code\entity\Entity.cpp" />
-    <ClCompile Include="code\entity\Grass.cpp" />
-    <ClCompile Include="code\entity\LifeForm.cpp" />
-    <ClCompile Include="code\entity\Plant.cpp" />
-    <ClCompile Include="code\entity\Rabbit.cpp" />
-    <ClCompile Include="code\GameEngine.cpp" />
-    <ClCompile Include="code\GameLoop.cpp" />
-    <ClCompile Include="code\Point.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="code\DisplayEngine.h" />
-    <ClInclude Include="code\entity\Animal.h" />
-    <ClInclude Include="code\entity\Entity.h" />
-    <ClInclude Include="code\entity\Grass.h" />
-    <ClInclude Include="code\entity\LifeForm.h" />
-    <ClInclude Include="code\entity\Plant.h" />
-    <ClInclude Include="code\entity\Rabbit.h" />
-    <ClInclude Include="code\GameEngine.h" />
-    <ClInclude Include="code\Point.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

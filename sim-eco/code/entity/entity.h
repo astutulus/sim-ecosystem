@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Point.h"
+#include "point.h"
 
 
 class Entity
@@ -14,5 +14,5 @@ public:
 	char getName();
 	Point getPos();
 	float DistTo(Entity*);
-	float AngleTo(Entity*);
+	float AngleTo(Entity*) const;
 };

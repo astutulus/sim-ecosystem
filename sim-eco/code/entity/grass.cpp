@@ -1,7 +1,6 @@
-
-#include "GameEngine.h"
-#include "Point.h"
-#include "Grass.h"
+#include "game-engine.h"
+#include "point.h"
+#include "grass.h"
 
 Grass::Grass() = default;
 

@@ -1,7 +1,6 @@
-
-#include "GameEngine.h"
-#include "Point.h"
-#include "LifeForm.h"
+#include "game-engine.h"
+#include "point.h"
+#include "life-form.h"
 
 
 LifeForm::LifeForm() : Entity(), age{ 0.0f }

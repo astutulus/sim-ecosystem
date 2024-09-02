@@ -1,14 +1,14 @@
-#define _USE_MATH_DEFINES // required for the next line to work
-#include <cmath>
+#define _USE_MATH_DEFINES // For M_PI to work (below)
+
+#include <math.h>
 #include <vector>
 
-#include "GameEngine.h"
-#include "Point.h"
-#include "Entity.h"
+#include "entity.h"
+#include "game-engine.h"
+#include "point.h"
 
 Entity::Entity() : name { '-' }, pos { Point(0, 0) }
-{}
-
+{ }
 
 Entity::Entity(char name, Point position) : name{ name }, pos{ position }
 { }
@@ -30,7 +30,7 @@ float Entity::DistTo(Entity* other)
 	return sqrtf(powf(dx, 2.0f) + powf(dy, 2.0f));
 }
 
-float Entity::AngleTo(Entity* other)
+float Entity::AngleTo(Entity* other) const
 {
 	float dx = (*other).pos.x - this->pos.x;
 	float dy = (*other).pos.y - this->pos.y;
@@ -40,4 +40,3 @@ float Entity::AngleTo(Entity* other)
 	else
 		return atanf(dy / dx) + M_PI;
 }
-

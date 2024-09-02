@@ -1,7 +1,6 @@
-
-#include "GameEngine.h"
-#include "Point.h"
-#include "Plant.h"
+#include "game-engine.h"
+#include "point.h"
+#include "plant.h"
 
 Plant::Plant() : LifeForm(), fBioMass{ 1 }
 {}

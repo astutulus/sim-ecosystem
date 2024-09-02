@@ -1,7 +1,7 @@
+#include <chrono> // std::chrono::system_clock::now(), std::chrono::duration<>
 #include "Windows.h"
-#include <chrono>			// std::chrono::system_clock::now(), std::chrono::duration<>
 
-#include "DisplayEngine.h"
+#include "display-engine.h"
 
 DisplayObj::DisplayObj()
 {
